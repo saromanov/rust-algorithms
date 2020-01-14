@@ -1,4 +1,6 @@
-pub trait Node<T> {
+use std::fmt;
+
+pub trait TNode<T> {
     pub fn new(data: T) -> Self;
     // return if binary tree is full
     pub fn is_full(&self) -> bool;
@@ -8,14 +10,20 @@ pub trait Node<T> {
     pub fn get_right(&self) -> Option<Node<T>>;
 };
 
+impl fmt::Display for Node<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {})", 1, 2)
+    }
+}
+
 pub struct Node <T> {
     data: T
     left: Option<Node<T>>
     right: Option<Node<T>>
 };
 
-impl Node<T: Ord> for Node {
-    pub fn new(data: T) -> Node {
+impl TNode<T> for Node<T> {
+    fn new(data: T) -> Node<T> {
         Node {
             data: data,
             left: None,
@@ -23,7 +31,7 @@ impl Node<T: Ord> for Node {
         }
     }
 
-    pub fn is_full(&self) -> bool {
+fn is_full(&self) -> bool {
         if self.left == None && self.right == None {
             true
         }
@@ -34,11 +42,11 @@ impl Node<T: Ord> for Node {
         false
     }
 
-    pub fn get_left(&self) -> Option<Node<T>> {
+    fn get_left(&self) -> Option<Node<T>> {
         self.left
     }
 
-    pub fn get_right(&self) -> Option<Node<T>> {
+    fn get_right(&self) -> Option<Node<T>> {
         self.right
     }
 }
