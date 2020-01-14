@@ -42,3 +42,13 @@ impl Node<T: Ord> for Node {
         self.right
     }
 }
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn test_create() {
+        let n = Node(10);
+        assert_eq!(add(1, 2), 3);
+    }
+}
