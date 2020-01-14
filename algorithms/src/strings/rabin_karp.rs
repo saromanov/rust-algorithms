@@ -6,11 +6,10 @@ pub fn rabin_karp(pattern:String, text:String) -> bool{
     if size == 0 {
         return false
     }
-    let pattern_hash = hash(pattern);
+    let pattern_hash = hash(pattern.as_str());
     let pattern_length = pattern.len();
-    let data = text.chars().collect();
     for n in 0..(size - pattern_length - 1) {
-        let slice = data[n:n + pattern_length];
+        let slice = &text[n..n + pattern_length];
         let hash_result = hash(slice);
         if hash_result == pattern_hash && slice == pattern {
             return true
