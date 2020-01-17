@@ -5,9 +5,9 @@ pub trait TNode<T> {
     // return if binary tree is full
     fn is_full(&self) -> bool;
 
-    fn get_left(&self) -> Option<Node<T>>;
+    fn get_left(&self) -> Option<Box<Node<T>>>;
 
-    fn get_right(&self) -> Option<Node<T>>;
+    fn get_right(&self) -> Option<Box<Node<T>>>;
 }
 
 impl <T> fmt::Display for Node<T> {
@@ -18,8 +18,8 @@ impl <T> fmt::Display for Node<T> {
 
 pub struct Node <T> {
     data: T,
-    left: Option<Node<T>>,
-    right: Option<Node<T>>,
+    left: Option<Box<Node<T>>>,
+    right: Option<Box<Node<T>>>,
 }
 
 impl <T>TNode<T> for Node<T> {
@@ -31,22 +31,29 @@ impl <T>TNode<T> for Node<T> {
         }
     }
 
-fn is_full(&self) -> bool {
-        if self.left == None && self.right == None {
-            true
-        }
-        if self.left != None && self.right != None {
-            self.is_full(self.left) && self.is_full(self.get_right)
-        }
+    fn is_full(&self) -> bool {
+        fn checking<T>(x: Node<T>) -> bool {
+             match (x.left, x.right) {
+                (Some(x), Some(y)) => {
+                    return checking(x.get_left()) && checking(x.get_right())
+                }
+                (None, None) => {
+                    return true
+                }
+                (_, _) => {
+                    return false
+                }
+            }
+        };
 
-        false
+        return checking(*self)
     }
 
-    fn get_left(&self) -> Option<Node<T>> {
+    fn get_left(&self) -> Option<Box<Node<T>>> {
         self.left
     }
 
-    fn get_right(&self) -> Option<Node<T>> {
+    fn get_right(&self) -> Option<Box<Node<T>>> {
         self.right
     }
 }
