@@ -1,17 +1,33 @@
 use std::fmt;
 
+type Leaf<T> = Box<BinaryTree<T>>;
 
 enum BinaryTree<T>{
     Empty,
-    Node(T, Box<Tree<T>>, Box<Tree<T>>)
+    Node(T, Leaf<T>, Leaf<T>)
 }
 
-impl <B> BinaryTree<B> where
-    B: PartialOrd
+fn empty_node<T>() -> Leaf<T> {
+    Box::new(BinaryTree::Empty)
+}
+
+impl <T> BinaryTree<T> where
+    T: PartialOrd
     {
 
-    pub fn insert(self, value:T){ 
-       
+    pub fn insert(self, value:T) -> Self { 
+       match self {
+           BinaryTree::Empty => {
+               BinaryTree::Node(value, empty_node(), empty_node())
+           },
+           BinaryTree::Node(data, left, right) => {
+               if value < data {
+                   BinaryTree::Node(data, Box::new(left.insert(value), right)
+               } else {
+                   BinaryTree::Node(data, left, Box::new(right.insert(value))
+               }
+           }
+       }
     }
 }
 
