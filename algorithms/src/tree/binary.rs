@@ -65,12 +65,38 @@ impl <T>TNode<T> for Node<T> {
     }
 }
 
+#[derive(PartialEq, Debug, Clone)]
+pub struct BinaryTree<B>{
+    root: Option<B>
+}
+
+impl <B> BinaryTree<B> where
+    B: TNode<i32>
+    {
+    pub fn new(root:B) -> Self {
+        Self {
+            root: Some(root),
+        }
+    }
+
+    pub fn is_empty(&self) -> bool {
+        match self.root {
+            Some(_) => false,
+            _ => true
+        }
+    }
+
+    pub fn insert(&self, data: B) -> bool { 
+        true
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
     #[test]
     fn test_create() {
-        let n = Node(10);
+        let n1 = Node(10);
         assert_eq!(add(1, 2), 3);
     }
 }
