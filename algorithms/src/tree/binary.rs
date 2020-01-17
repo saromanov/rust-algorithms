@@ -22,11 +22,11 @@ impl <T> BinaryTree<T> where
            },
            BinaryTree::Node(data, left, right) => {
                if value < data {
-                   BinaryTree::Node(data, Box::new(left.insert(value), right)
+                   BinaryTree::Node(data, Box::new(left.insert(value)), right)
                } else {
-                   BinaryTree::Node(data, left, Box::new(right.insert(value))
+                   BinaryTree::Node(data, left, Box::new(right.insert(value)))
                }
-           }
+           },
        }
     }
 }
