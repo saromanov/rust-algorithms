@@ -1,28 +1,28 @@
 use std::fmt;
 
 pub trait TNode<T> {
-    pub fn new(data: T) -> Self;
+    fn new(data: T) -> Self;
     // return if binary tree is full
-    pub fn is_full(&self) -> bool;
+    fn is_full(&self) -> bool;
 
-    pub fn get_left(&self) -> Option<Node<T>>;
+    fn get_left(&self) -> Option<Node<T>>;
 
-    pub fn get_right(&self) -> Option<Node<T>>;
-};
+    fn get_right(&self) -> Option<Node<T>>;
+}
 
-impl fmt::Display for Node<T> {
+impl <T> fmt::Display for Node<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "({}, {})", 1, 2)
     }
 }
 
 pub struct Node <T> {
-    data: T
-    left: Option<Node<T>>
-    right: Option<Node<T>>
-};
+    data: T,
+    left: Option<Node<T>>,
+    right: Option<Node<T>>,
+}
 
-impl TNode<T> for Node<T> {
+impl <T>TNode<T> for Node<T> {
     fn new(data: T) -> Node<T> {
         Node {
             data: data,
@@ -36,7 +36,7 @@ fn is_full(&self) -> bool {
             true
         }
         if self.left != None && self.right != None {
-            is_full(self.left) && is_full(self.get_right)
+            self.is_full(self.left) && self.is_full(self.get_right)
         }
 
         false
