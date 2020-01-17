@@ -3,11 +3,11 @@ use std::fmt;
 pub trait TNode<T> {
     fn new(data: T) -> Self;
     // return if binary tree is full
-    fn is_full(&self) -> bool;
+    fn is_full(self) -> bool;
 
-    fn get_left(&self) -> Option<Box<Node<T>>>;
+    fn get_left(&self) -> &Option<Box<Node<T>>>;
 
-    fn get_right(&self) -> Option<Box<Node<T>>>;
+    fn get_right(&self) -> &Option<Box<Node<T>>>;
 }
 
 impl <T> fmt::Display for Node<T> {
@@ -15,7 +15,7 @@ impl <T> fmt::Display for Node<T> {
         write!(f, "({}, {})", 1, 2)
     }
 }
-
+#[derive(PartialEq, Debug, Clone)]
 pub struct Node <T> {
     data: T,
     left: Option<Box<Node<T>>>,
@@ -31,30 +31,37 @@ impl <T>TNode<T> for Node<T> {
         }
     }
 
-    fn is_full(&self) -> bool {
-        fn checking<T>(x: Node<T>) -> bool {
-             match (x.left, x.right) {
-                (Some(x), Some(y)) => {
-                    return checking(x.get_left()) && checking(x.get_right())
+    fn is_full(self) -> bool {
+        fn checking<T>(x: &Option<Box<Node<T>>>) -> bool {
+            match x {
+                Some(data) => {
+                     match (data.left.as_ref(), data.right.as_ref()) {
+                        (Some(a), Some(b)) => {
+                            return checking(&a.left) && checking(&b.right)
+                        }
+                        (None, None) => {
+                            return true
+                        }
+                        (_, _) => {
+                            return false
+                        }
+                    }
                 }
-                (None, None) => {
-                    return true
-                }
-                (_, _) => {
+                _ => {
                     return false
                 }
             }
         };
-
-        return checking(*self)
+        let data = Some(Box::new(self));
+        return checking(&data)
     }
 
-    fn get_left(&self) -> Option<Box<Node<T>>> {
-        self.left
+    fn get_left(&self) -> &Option<Box<Node<T>>> {
+       &self.left
     }
 
-    fn get_right(&self) -> Option<Box<Node<T>>> {
-        self.right
+    fn get_right(&self) -> &Option<Box<Node<T>>> {
+       &self.right
     }
 }
 
