@@ -8,6 +8,8 @@ pub trait TNode<T> {
     fn get_left(&self) -> &Option<Box<Node<T>>>;
 
     fn get_right(&self) -> &Option<Box<Node<T>>>;
+
+    fn get_value(&self) -> &T;
 }
 
 impl <T> fmt::Display for Node<T> {
@@ -63,6 +65,10 @@ impl <T>TNode<T> for Node<T> {
     fn get_right(&self) -> &Option<Box<Node<T>>> {
        &self.right
     }
+
+    fn get_value(&self) -> &T{
+        &self.data
+    }
 }
 
 #[derive(PartialEq, Debug, Clone)]
@@ -86,8 +92,18 @@ impl <B> BinaryTree<B> where
         }
     }
 
-    pub fn insert(&self, data: B) -> bool { 
-        true
+    pub fn insert(&mut self, data: B){ 
+        match self.is_empty() {
+            true => self.root = Some(data),
+            false => {
+                let mut parent_node = self.root.as_ref();
+                loop {
+                    if data.get_value() < parent_node.unwrap().get_value() {
+                        parent_node.get_left()
+                    }
+                }
+            }
+        }
     }
 }
 
