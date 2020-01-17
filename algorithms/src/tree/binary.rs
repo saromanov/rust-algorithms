@@ -1,4 +1,5 @@
 use std::fmt;
+use std::cmp::max;
 
 type Leaf<T> = Box<BinaryTree<T>>;
 
@@ -28,6 +29,14 @@ impl <T> BinaryTree<T> where
                }
            },
        }
+    }
+
+    fn depth(&self) -> usize {
+        match *self {
+            BinaryTree::Empty => 0,
+            BinaryTree::Node(_, ref left, ref right) =>
+                1 + max(left.depth(), right.depth())
+        }
     }
 }
 
