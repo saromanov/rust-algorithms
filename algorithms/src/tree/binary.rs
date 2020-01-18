@@ -44,11 +44,11 @@ impl <T> BinaryTree<T> where
         }
     }
 
-    fn max(&self) -> T{
+    fn max(self) -> T{
          match self {
             BinaryTree::Empty => T::zero(),
             BinaryTree::Node(data, _, right) => {
-                if *right == Box::new(BinaryTree::Empty) {
+                if *right == BinaryTree::Empty {
                    data
                 } else {
                     right.max()
