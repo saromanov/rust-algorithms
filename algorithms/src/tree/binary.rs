@@ -5,8 +5,6 @@ use std::cmp::max;
 use std::ops::Neg;
 use self::num::{NumCast, Integer};
 
-pub tree: BinaryTree;
-
 type Leaf<T> = Box<BinaryTree<T>>;
 
 #[derive(PartialEq)]
@@ -66,7 +64,7 @@ impl <T> BinaryTree<T> where
                 if *left == BinaryTree::Empty {
                    data
                 } else {
-                    left.max()
+                    left.min()
                 }
             },
         }
@@ -79,7 +77,28 @@ mod tests {
 
     #[test]
     fn test_depth() {
-        let mut bt = BinaryTree::Empty.insert(10).insert(5).insert(2);
-        assert_eq!(bt.depth(), 2);
+        let bt = super::BinaryTree::Empty.insert(10).insert(5).insert(2);
+        assert_eq!(bt.depth(), 3);
+        let bt2 = super::BinaryTree::Empty.insert(10);
+    }
+
+    #[test]
+    fn test_max() {
+        let bt = super::BinaryTree::Empty.insert(10).insert(5).insert(2).insert(20);
+        assert_eq!(bt.max(), 20);
+        let bt2 = super::BinaryTree::Empty.insert(10);
+        assert_eq!(bt2.max(), 10);
+        let bt3 = super::BinaryTree::Empty.insert(-5).insert(30).insert(2).insert(20);
+        assert_eq!(bt3.max(), 30);
+    }
+
+    #[test]
+    fn test_min() {
+        let bt = super::BinaryTree::Empty.insert(10).insert(5).insert(2).insert(20);
+        assert_eq!(bt.min(), 2);
+        let bt2 = super::BinaryTree::Empty.insert(10);
+        assert_eq!(bt2.min(), 10);
+        let bt3 = super::BinaryTree::Empty.insert(-5).insert(30).insert(2).insert(20);
+        assert_eq!(bt3.min(), -5);
     }
 }
