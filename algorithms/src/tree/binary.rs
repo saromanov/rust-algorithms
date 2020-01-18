@@ -48,7 +48,11 @@ impl <T> BinaryTree<T> where
          match self {
             BinaryTree::Empty => T::zero(),
             BinaryTree::Node(data, _, right) => {
-                T::one()
+                if *right == Box::new(BinaryTree::Empty) {
+                   data
+                } else {
+                    right.max()
+                }
             },
         }
     }
