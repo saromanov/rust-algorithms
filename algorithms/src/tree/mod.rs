@@ -1,1 +1,1 @@
-mod binary;
+// Puppet for module

@@ -5,10 +5,12 @@ use std::cmp::max;
 use std::ops::Neg;
 use self::num::{NumCast, Integer};
 
+pub tree: BinaryTree;
+
 type Leaf<T> = Box<BinaryTree<T>>;
 
 #[derive(PartialEq)]
-enum BinaryTree<T>{
+pub enum BinaryTree<T>{
     Empty,
     Node(T, Leaf<T>, Leaf<T>)
 }
@@ -76,8 +78,8 @@ impl <T> BinaryTree<T> where
 mod tests {
 
     #[test]
-    fn test_create() {
-        let n1 = Node(10);
-        assert_eq!(add(1, 2), 3);
+    fn test_depth() {
+        let mut bt = BinaryTree::Empty.insert(10).insert(5).insert(2);
+        assert_eq!(bt.depth(), 2);
     }
 }
