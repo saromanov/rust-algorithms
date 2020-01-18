@@ -70,14 +70,14 @@ impl <T> BinaryTree<T> where
         }
     }
 
-    fn search(self, value:T) -> T {
-        match self {
-            BinaryTree::Empty => T::zero(),
-            BinaryTree::Node(data, left, right) => {
-                if value == data {
-                    value
+    fn search(&self, value:T) -> bool {
+        match *self {
+            BinaryTree::Empty => false,
+            BinaryTree::Node(ref data, ref left, ref right) => {
+                if value == *data {
+                    true
                 }
-                else if value < data {
+                else if value > *data {
                     right.search(value)
                 }
                 else {
@@ -117,5 +117,14 @@ mod tests {
         assert_eq!(bt2.min(), 10);
         let bt3 = super::BinaryTree::Empty.insert(-5).insert(30).insert(2).insert(20);
         assert_eq!(bt3.min(), -5);
+    }
+
+    #[test]
+    fn test_search() {
+        let bt = super::BinaryTree::Empty.insert(10).insert(5).insert(2).insert(20);
+        assert_eq!(bt.search(2), true);
+        assert_eq!(bt.search(7), false);
+        assert_eq!(bt.search(-2), false);
+        assert_eq!(bt.search(20), true);
     }
 }
