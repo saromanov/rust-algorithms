@@ -56,6 +56,20 @@ impl <T> BinaryTree<T> where
             },
         }
     }
+
+    fn min(self) -> T{
+         match self {
+            BinaryTree::Empty => T::zero(),
+            BinaryTree::Node(data, left, _) => {
+                if *left == BinaryTree::Empty {
+                   data
+                } else {
+                    left.max()
+                }
+            },
+        }
+    }
+    
 }
 
 #[cfg(test)]
