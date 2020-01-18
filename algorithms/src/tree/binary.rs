@@ -1,8 +1,13 @@
+extern crate num;
+
 use std::fmt;
 use std::cmp::max;
+use std::ops::Neg;
+use self::num::{NumCast, Integer};
 
 type Leaf<T> = Box<BinaryTree<T>>;
 
+#[derive(PartialEq)]
 enum BinaryTree<T>{
     Empty,
     Node(T, Leaf<T>, Leaf<T>)
@@ -13,7 +18,7 @@ fn empty_node<T>() -> Leaf<T> {
 }
 
 impl <T> BinaryTree<T> where
-    T: PartialOrd
+    T: PartialOrd + Integer + Neg<Output = T> + NumCast
     {
 
     pub fn insert(self, value:T) -> Self { 
@@ -36,6 +41,15 @@ impl <T> BinaryTree<T> where
             BinaryTree::Empty => 0,
             BinaryTree::Node(_, ref left, ref right) =>
                 1 + max(left.depth(), right.depth())
+        }
+    }
+
+    fn max(&self) -> T{
+         match self {
+            BinaryTree::Empty => T::zero(),
+            BinaryTree::Node(data, _, right) => {
+                T::one()
+            },
         }
     }
 }
