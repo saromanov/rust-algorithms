@@ -69,6 +69,23 @@ impl <T> BinaryTree<T> where
             },
         }
     }
+
+    fn search(self, value:T) -> T {
+        match self {
+            BinaryTree::Empty => T::zero(),
+            BinaryTree::Node(data, left, right) => {
+                if value == data {
+                    value
+                }
+                else if value < data {
+                    right.search(value)
+                }
+                else {
+                    left.search(value)
+                }
+            }
+        }
+    }
     
 }
 
