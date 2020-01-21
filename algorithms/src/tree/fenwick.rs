@@ -4,9 +4,9 @@ pub struct FenwickTree {
 }
 
 impl FenwickTree {
-    pub fn new(size:i32) -> FenwickTree {
+    pub fn new(size:usize) -> FenwickTree {
         Self {
-            data: vec![0:size],
+            data: Vec::with_capacity(size),
         }
     }
 
@@ -15,7 +15,9 @@ impl FenwickTree {
             match i {
                 0 => result,
                 _ => {
-                    res(result+ft.data[i], i -= i & (-i))
+                    let mut new_i = i;
+                    new_i -= i & (-i);
+                    res(ft, result+ft.data[i],  new_i)
                 }
             }
         }
