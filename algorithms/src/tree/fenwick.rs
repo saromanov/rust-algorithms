@@ -4,6 +4,7 @@ pub struct FenwickTree {
     size: usize,
 }
 
+
 impl FenwickTree {
     pub fn new(size:usize) -> FenwickTree {
         Self {
@@ -12,22 +13,23 @@ impl FenwickTree {
         }
     }
 
-    pub fn update(&self, idx:usize, value:usize) -> bool {
+    pub fn update(self, idx:usize, value:usize) -> bool {
         if idx > self.size {
-            false
+            false;
         }
-        fn res(ft: &FenwickTree, result:usize, i:usize) -> bool {
+        fn res(mut ft: FenwickTree, value:usize, i:usize) -> bool {
             match i {
                 0 => true,
                 _ => {
                     let mut new_i = i;
+                    ft.data[i] += value;
                     new_i += i & i.wrapping_sub(1);
-                    res(ft, result+ft.data[i],  new_i)
+                    res(ft, value, new_i)
                 }
             }
         }
 
-        return res(self, 0, idx) 
+        return res(self, value, idx) 
     }
 
     pub fn query(&self, idx:usize) -> usize {
