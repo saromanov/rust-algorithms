@@ -54,6 +54,9 @@ mod tests {
     #[test]
     fn test_basic() {
         let bt = super::FenwickTree::new(10);
-        assert_eq!(bt.update(1,20), true);
+        assert_eq!(bt.update(0,20), true);
+        assert_eq!(bt.update(2,20), true);
+        let mut data = bt.query(2);
+        assert_eq!(data, 20);
     }
 }
